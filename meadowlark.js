@@ -1,5 +1,6 @@
 var express = require('express');
 
+var fortune = require('./lib/fortune.js');
 var app = express();
 
 //设置handlebars视图引擎
@@ -11,20 +12,13 @@ app.set('port',process.env.PORT || 3000);
 
 app.use(express.static(__dirname + '/public'));
 
-var fortunes = [
-			"cookie 1",
-			"cookie 2",
-			"cookie 3",
-			"cookie 4",
-			"cookie 5",
-];
+
 
 app.get('/',function(req,res){
 	res.render('home');
 });
 app.get('/about',function(req,res){
-	var randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
-	res.render('about',{fortune:randomFortune});
+	res.render('about',{fortune:fortune.getFortune()});
 });
 
 //404 catch-all处理器（中间件）
